@@ -3,41 +3,30 @@
    ========================================================================== */
 
 .page__footer {
-  @include clearfix;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  width: 100%;
+  margin: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--global-dark-border-color);
   background-color: var(--global-footer-bg-color);
   color: var(--global-text-color-light);
 
-  float: left;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 3em;
-  width: 100%;
-  clear: both;
-
-  /* keep footer in normal document flow so custom widgets do not overlap content */
-  height: auto;
-
-  /* keep the footer on the bottom of the page */
-  position: relative;
-  bottom: auto;
-
-  -webkit-animation: intro 0.3s both;
-          animation: intro 0.3s both;
-  -webkit-animation-delay: 0.45s;
-          animation-delay: 0.45s;
-  border-top: 1px solid var(--global-dark-border-color);
-
   footer {
-    @include clearfix;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
-    max-width: 100%;
-    padding: 0 1em 1em;
-
-    @include breakpoint($x-large) {
-      max-width: $x-large;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 16px;
+    max-width: $x-large;
+    margin: 0 auto;
+    padding: 7px 1em;
+    font-family: $global-font-family;
+    font-size: 12px;
+    line-height: 1.5;
   }
 
   a {
@@ -47,58 +36,84 @@
     &:hover {
       text-decoration: underline;
     }
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
   }
 
   .fas,
   .fab,
   .far,
   .fal {
-    color: var(--global-text-color-light);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  /* don't pin the footer on mobile devices */
-  .page__footer {
-    position: relative;
-    bottom: auto;
+    color: inherit;
   }
 }
 
 .page__footer-copyright {
-  font-family: $global-font-family;
-  font-size: $type-size-7;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 5px;
+  min-width: 0;
 }
 
 .page__footer-follow {
   ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
     margin: 0;
     padding: 0;
-    list-style-type: none;
+    list-style: none;
   }
 
   li {
-    display: inline-block;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-family: $sans-serif-narrow;
-    font-size: $type-size-6;
-    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    text-transform: none;
   }
 
-  li + li:before {
-    content: "";
-    padding-right: 5px;
+  li + li::before {
+    content: none;
   }
 
   a {
-    padding-right: 10px;
-    font-weight: bold;
+    padding: 0;
+    font-weight: normal;
+    white-space: nowrap;
   }
+}
 
-  .social-icons {
-    a {
-      white-space: nowrap;
+.page__footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+}
+
+@media screen and (max-width: 768px) {
+  .page__footer {
+    footer {
+      justify-content: center;
+      gap: 3px 12px;
+      padding: 6px 12px;
+      font-size: 11px;
+    }
+
+    .page__footer-copyright {
+      flex-basis: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .page__footer-follow-label {
+      display: none;
     }
   }
 }

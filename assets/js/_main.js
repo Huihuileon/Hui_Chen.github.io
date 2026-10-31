@@ -136,6 +136,29 @@ function redrawPlotly() {
    Actions that should occur when the page has been fully loaded
    ========================================================================== */
 
+// Reserve space for the fixed footer, including changes from wrapping or fonts.
+// This uses native APIs so footer spacing does not depend on jQuery loading.
+const fixedFooter = document.querySelector(".page__footer");
+if (fixedFooter) {
+  let footerHeight = 0;
+  const updateFooterSpace = function () {
+    const height = Math.ceil(fixedFooter.getBoundingClientRect().height);
+    if (height !== footerHeight) {
+      footerHeight = height;
+      document.documentElement.style.setProperty("--footer-height", height + "px");
+    }
+  };
+  updateFooterSpace();
+  if ("ResizeObserver" in window) {
+    const footerObserver = new ResizeObserver(updateFooterSpace);
+    footerObserver.observe(fixedFooter);
+  }
+  window.addEventListener("resize", updateFooterSpace, { passive: true });
+  if (document.fonts) {
+    document.fonts.ready.then(updateFooterSpace);
+  }
+}
+
 $(document).ready(function () {
   // SCSS SETTINGS - These should be the same as the settings in the relevant files
   const scssLarge = 925;          // pixels, from /_sass/_themes.scss
@@ -152,22 +175,6 @@ $(document).ready(function () {
 
   // Enable the theme toggle
   $('#theme-toggle').on('click', toggleTheme);
-
-  // Enable the sticky footer
-  var bumpIt = function () {
-    $("body").css("padding-bottom", "0");
-    $("body").css("margin-bottom", $(".page__footer").outerHeight(true));
-  }
-  $(window).resize(function () {
-    didResize = true;
-  });
-  setInterval(function () {
-    if (didResize) {
-      didResize = false;
-      bumpIt();
-    }}, 250);
-  var didResize = false;
-  bumpIt();
 
   // Follow menu drop down
   $(".author__urls-wrapper button").on("click", function () {

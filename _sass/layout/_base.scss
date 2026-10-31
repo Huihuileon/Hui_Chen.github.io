@@ -7,6 +7,7 @@ html {
   min-height: 100%;
   
   scroll-behavior: smooth;
+  scroll-padding-bottom: calc(var(--footer-height, 80px) + 1rem);
 }
 
 body {
@@ -16,7 +17,7 @@ body {
 
   margin: 0;
   padding: $masthead-height 0 0;
-  padding-bottom: 9em;
+  padding-bottom: calc(var(--footer-height, 80px) + 1rem);
   font-family: $global-font-family;
   line-height: 1.5;
 
